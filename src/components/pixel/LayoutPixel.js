@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useRef } from 'react';
 import { Tabs, Card } from '@shopify/polaris';
 import Step1 from './steps/Step1';
 import Step2 from './steps/Step2';
@@ -23,81 +23,96 @@ import {
     useHistory,
     withRouter
 } from "react-router-dom";
+
+
+
+const SetTabSelected = (tabSelected) => {
+    localStorage.setItem('tab', tabSelected);
+    return [
+        {
+            number: moreAppConfig.Tab.DASHBOARD,
+            selected: tabSelected === moreAppConfig.Tab.DASHBOARD ?? true,
+            id: 'dashboard',
+            content: 'Dashboard'
+        },
+        {
+            number: moreAppConfig.Tab.CREATE_PIXEL,
+            selected: tabSelected === moreAppConfig.Tab.CREATE_PIXEL ?? false,
+            id: 'create-pixel',
+            content: 'Create Pixel'
+        },
+        {
+            number: moreAppConfig.Tab.MANAGE_PIXCEL,
+            selected: tabSelected === moreAppConfig.Tab.MANAGE_PIXCEL ?? false,
+            id: 'manage-pixel',
+            content: 'Manage Pixel'
+        },
+        {
+            number: moreAppConfig.Tab.SETTING,
+            selected: tabSelected === moreAppConfig.Tab.SETTING ?? false,
+            id: 'setting',
+            content: 'Setting'
+        },
+        {
+            number: moreAppConfig.Tab.PLAN,
+            selected: tabSelected === moreAppConfig.Tab.PLAN ?? false,
+            id: 'plan',
+            content: 'Plan'
+        },
+        {
+            number: moreAppConfig.Tab.FEED_PIXEL,
+            selected: tabSelected === moreAppConfig.Tab.FEED_PIXEL ?? false,
+            id: 'feed',
+            content: 'Facebook Product Feed'
+        },
+        {
+            number: moreAppConfig.Tab.HELP,
+            selected: tabSelected === moreAppConfig.Tab.HELP ?? false,
+            id: 'help',
+            content: 'Help'
+        },
+        {
+            number: moreAppConfig.Tab.TIKTOK_PIXEL,
+            selected: tabSelected === moreAppConfig.Tab.TIKTOK_PIXEL ?? false,
+            id: 'tiktok-pixel',
+            content: 'Tiktok Pixels'
+        },
+    ]
+}
+
 class LayoutPixel extends Component {
+
     constructor(props) {
         super(props);
-        debugger;
+        this.props.onRef(this);
         //var tabSelected = this.props.selectedTab;
         var tabSelected = localStorage.getItem('tab') ? parseInt(localStorage.getItem('tab')) : moreAppConfig.Tab.DASHBOARD;
+        var slug = this.props.match.params.slug;
         this.state = {
             TabIndex: 0,
-            tabs: [
-                {
-                    number: moreAppConfig.Tab.DASHBOARD,
-                    selected: tabSelected === moreAppConfig.Tab.DASHBOARD ?? true,
-                    id: 'dashboard',
-                    content: 'Dashboard'
-                },
-                {
-                    number: moreAppConfig.Tab.CREATE_PIXEL,
-                    selected: tabSelected === moreAppConfig.Tab.CREATE_PIXEL ?? false,
-                    id: 'create-pixel',
-                    content: 'Create Pixel'
-                },
-                {
-                    number: moreAppConfig.Tab.MANAGE_PIXCEL,
-                    selected: tabSelected === moreAppConfig.Tab.MANAGE_PIXCEL ?? false,
-                    id: 'manage-pixel',
-                    content: 'Manage Pixel'
-                },
-                {
-                    number: moreAppConfig.Tab.SETTING,
-                    selected: tabSelected === moreAppConfig.Tab.SETTING ?? false,
-                    id: 'setting',
-                    content: 'Setting'
-                },
-                {
-                    number: moreAppConfig.Tab.PLAN,
-                    selected: tabSelected === moreAppConfig.Tab.PLAN ?? false,
-                    id: 'plan',
-                    content: 'Plan'
-                },
-                {
-                    number: moreAppConfig.Tab.FEED_PIXEL,
-                    selected: tabSelected === moreAppConfig.Tab.FEED_PIXEL ?? false,
-                    id: 'feed',
-                    content: 'Facebook Product Feed'
-                },
-                {
-                    number: moreAppConfig.Tab.HELP,
-                    selected: tabSelected === moreAppConfig.Tab.HELP ?? false,
-                    id: 'help',
-                    content: 'Help'
-                },
-                {
-                    number: moreAppConfig.Tab.TIKTOK_PIXEL,
-                    selected: tabSelected === moreAppConfig.Tab.TIKTOK_PIXEL ?? false,
-                    id: 'tiktok-pixel',
-                    content: 'Tiktok Pixels'
-                },
-            ]
+            tabs: SetTabSelected(tabSelected)
         }
         this.callbackStepSetupChange = this.callbackStepSetupChange.bind(this);
     }
 
-
     callbackPixelStepSetupFunction = (pixel) => {
-        debugger;
+        
         this.props.AppCallbackShopFuntion({
             ...this.props.shop,
             StepSetup: 1,
             pixelStepSetup: pixel
+        });
+        this.setState({
+            tabs: SetTabSelected(moreAppConfig.Tab.CREATE_PIXEL)
         });
         this.props.history.push('/' + moreAppConfig.UrlSystem.STEP_2 + '?shop=' + this.props.shop?.Domain + '&admin=1');
     }
 
 
     callbackStepSetupChange = (stepSetup) => {
+        this.setState({
+            tabs: SetTabSelected(moreAppConfig.Tab.CREATE_PIXEL)
+        })
         if (stepSetup === 3) {
             this.props.AppCallbackShopFuntion({
                 ...this.props.shop,
@@ -126,112 +141,18 @@ class LayoutPixel extends Component {
     };
 
     callbackSelectedTabCreateChange = (selected, pixel) => {
+        
         if (pixel != null) {
+            this.props.history.push('/' + moreAppConfig.UrlSystem.UPDATE_PIXEL + '/' + pixel.ID + '?shop=' + this.props.shop?.Domain + '&admin=1');
+
             this.setState({
-                tabs: [
-                    {
-                        number: moreAppConfig.Tab.DASHBOARD,
-                        selected: selected === moreAppConfig.Tab.DASHBOARD ?? false,
-                        id: 'dashboard',
-                        content: 'Dashboard'
-                    },
-                    {
-                        number: moreAppConfig.Tab.CREATE_PIXEL,
-                        selected: selected === moreAppConfig.Tab.CREATE_PIXEL ?? false,
-                        id: 'create-pixel',
-                        content: 'Create Pixel'
-                    },
-                    {
-                        number: moreAppConfig.Tab.MANAGE_PIXCEL,
-                        selected: selected === moreAppConfig.Tab.MANAGE_PIXCEL ?? false,
-                        id: 'manage-pixel',
-                        content: 'Manage Pixel'
-                    },
-                    {
-                        number: moreAppConfig.Tab.SETTING,
-                        selected: selected === moreAppConfig.Tab.SETTING ?? false,
-                        id: 'setting',
-                        content: 'Setting'
-                    },
-                    {
-                        number: moreAppConfig.Tab.PLAN,
-                        selected: selected === moreAppConfig.Tab.PLAN ?? false,
-                        id: 'plan',
-                        content: 'Plan'
-                    },
-                    {
-                        number: moreAppConfig.Tab.FEED_PIXEL,
-                        selected: selected === moreAppConfig.Tab.FEED_PIXEL ?? false,
-                        id: 'feed',
-                        content: 'Facebook Product Feed'
-                    },
-                    {
-                        number: moreAppConfig.Tab.HELP,
-                        selected: selected === moreAppConfig.Tab.HELP ?? false,
-                        id: 'help',
-                        content: 'Help'
-                    },
-                    {
-                        number: moreAppConfig.Tab.TIKTOK_PIXEL,
-                        selected: selected === moreAppConfig.Tab.TIKTOK_PIXEL ?? false,
-                        id: 'tiktok-pixel',
-                        content: 'Tiktok Pixels'
-                    },
-                ]
+                tabs: SetTabSelected(selected)
             })
         }
         else {
+            this.props.history.push('/' + moreAppConfig.UrlSystem.CREATE_PIXEL + '?shop=' + this.props.shop?.Domain + '&admin=1');
             this.setState({
-                tabs: [
-                    {
-                        number: moreAppConfig.Tab.DASHBOARD,
-                        selected: selected === moreAppConfig.Tab.DASHBOARD ?? false,
-                        id: 'dashboard',
-                        content: 'Dashboard'
-                    },
-                    {
-                        number: moreAppConfig.Tab.CREATE_PIXEL,
-                        selected: selected === moreAppConfig.Tab.CREATE_PIXEL ?? false,
-                        id: 'create-pixel',
-                        content: 'Create Pixel'
-                    },
-                    {
-                        number: moreAppConfig.Tab.MANAGE_PIXCEL,
-                        selected: selected === moreAppConfig.Tab.MANAGE_PIXCEL ?? false,
-                        id: 'manage-pixel',
-                        content: 'Manage Pixel'
-                    },
-                    {
-                        number: moreAppConfig.Tab.SETTING,
-                        selected: selected === moreAppConfig.Tab.SETTING ?? false,
-                        id: 'setting',
-                        content: 'Setting'
-                    },
-                    {
-                        number: moreAppConfig.Tab.PLAN,
-                        selected: selected === moreAppConfig.Tab.PLAN ?? false,
-                        id: 'plan',
-                        content: 'Plan'
-                    },
-                    {
-                        number: moreAppConfig.Tab.FEED_PIXEL,
-                        selected: selected === moreAppConfig.Tab.FEED_PIXEL ?? false,
-                        id: 'feed',
-                        content: 'Facebook Product Feed'
-                    },
-                    {
-                        number: moreAppConfig.Tab.HELP,
-                        selected: selected === moreAppConfig.Tab.HELP ?? false,
-                        id: 'help',
-                        content: 'Help'
-                    },
-                    {
-                        number: moreAppConfig.Tab.TIKTOK_PIXEL,
-                        selected: selected === moreAppConfig.Tab.TIKTOK_PIXEL ?? false,
-                        id: 'tiktok-pixel',
-                        content: 'Tiktok Pixels'
-                    },
-                ]
+                tabs: SetTabSelected(selected)
             })
         }
         this.props.AppCallbackSelectedTabCreateFunction(selected, pixel);
@@ -241,56 +162,7 @@ class LayoutPixel extends Component {
 
     callbackSelectedTabChange = (selected) => {
         this.setState({
-            tabs: [
-                {
-                    number: moreAppConfig.Tab.DASHBOARD,
-                    selected: selected === moreAppConfig.Tab.DASHBOARD ?? false,
-                    id: 'dashboard',
-                    content: 'Dashboard'
-                },
-                {
-                    number: moreAppConfig.Tab.CREATE_PIXEL,
-                    selected: selected === moreAppConfig.Tab.CREATE_PIXEL ?? false,
-                    id: 'create-pixel',
-                    content: 'Create Pixel'
-                },
-                {
-                    number: moreAppConfig.Tab.MANAGE_PIXCEL,
-                    selected: selected === moreAppConfig.Tab.MANAGE_PIXCEL ?? false,
-                    id: 'manage-pixel',
-                    content: 'Manage Pixel'
-                },
-                {
-                    number: moreAppConfig.Tab.SETTING,
-                    selected: selected === moreAppConfig.Tab.SETTING ?? false,
-                    id: 'setting',
-                    content: 'Setting'
-                },
-                {
-                    number: moreAppConfig.Tab.PLAN,
-                    selected: selected === moreAppConfig.Tab.PLAN ?? false,
-                    id: 'plan',
-                    content: 'Plan'
-                },
-                {
-                    number: moreAppConfig.Tab.FEED_PIXEL,
-                    selected: selected === moreAppConfig.Tab.FEED_PIXEL ?? false,
-                    id: 'feed',
-                    content: 'Facebook Product Feed'
-                },
-                {
-                    number: moreAppConfig.Tab.HELP,
-                    selected: selected === moreAppConfig.Tab.HELP ?? false,
-                    id: 'help',
-                    content: 'Help'
-                },
-                {
-                    number: moreAppConfig.Tab.TIKTOK_PIXEL,
-                    selected: selected === moreAppConfig.Tab.TIKTOK_PIXEL ?? false,
-                    id: 'tiktok-pixel',
-                    content: 'Tiktok Pixels'
-                },
-            ]
+            tabs: SetTabSelected(selected)
         })
         this.props.AppCallbackSelectedTabFunction(selected);
 
@@ -298,56 +170,7 @@ class LayoutPixel extends Component {
 
     callbackSavePixelSuccess = () => {
         this.setState({
-            tabs: [
-                {
-                    number: moreAppConfig.Tab.DASHBOARD,
-                    selected: false,
-                    id: 'dashboard',
-                    content: 'Dashboard'
-                },
-                {
-                    number: moreAppConfig.Tab.CREATE_PIXEL,
-                    selected: true,
-                    id: 'create-pixel',
-                    content: 'Create Pixel'
-                },
-                {
-                    number: moreAppConfig.Tab.MANAGE_PIXCEL,
-                    selected: false,
-                    id: 'manage-pixel',
-                    content: 'Manage Pixel'
-                },
-                {
-                    number: moreAppConfig.Tab.SETTING,
-                    selected: false,
-                    id: 'setting',
-                    content: 'Setting'
-                },
-                {
-                    number: moreAppConfig.Tab.PLAN,
-                    selected: false,
-                    id: 'plan',
-                    content: 'Plan'
-                },
-                {
-                    number: moreAppConfig.Tab.FEED_PIXEL,
-                    selected: false,
-                    id: 'feed',
-                    content: 'Facebook Product Feed'
-                },
-                {
-                    number: moreAppConfig.Tab.HELP,
-                    selected: false,
-                    id: 'help',
-                    content: 'Help'
-                },
-                {
-                    number: moreAppConfig.Tab.TIKTOK_PIXEL,
-                    selected: false,
-                    id: 'tiktok-pixel',
-                    content: 'Tiktok Pixels'
-                },
-            ]
+            tabs: SetTabSelected(moreAppConfig.Tab.CREATE_PIXEL)
         })
         this.props.AppCallbackAfterSavePixelSuccess();
 
@@ -357,61 +180,16 @@ class LayoutPixel extends Component {
     callbackIsShowPlanFuntion = (isShowPlan) => {
         this.props.AppCallbackIsShowPlanFuntion(isShowPlan);
     }
-
+    handleSetOnlyTabChange = (selected) => {
+        this.setState({
+            tabs: SetTabSelected(selected)
+        })
+    }
     handleTabChange = (selected) => {
-        debugger;
+        
         // window.localStorage.setItem('tab', selected);
         this.setState({
-            tabs: [
-                {
-                    number: moreAppConfig.Tab.DASHBOARD,
-                    selected: selected === moreAppConfig.Tab.DASHBOARD ?? false,
-                    id: 'dashboard',
-                    content: 'Dashboard'
-                },
-                {
-                    number: moreAppConfig.Tab.CREATE_PIXEL,
-                    selected: selected === moreAppConfig.Tab.CREATE_PIXEL ?? false,
-                    id: 'create-pixel',
-                    content: 'Create Pixel'
-                },
-                {
-                    number: moreAppConfig.Tab.MANAGE_PIXCEL,
-                    selected: selected === moreAppConfig.Tab.MANAGE_PIXCEL ?? false,
-                    id: 'manage-pixel',
-                    content: 'Manage Pixel'
-                },
-                {
-                    number: moreAppConfig.Tab.SETTING,
-                    selected: selected === moreAppConfig.Tab.SETTING ?? false,
-                    id: 'setting',
-                    content: 'Setting'
-                },
-                {
-                    number: moreAppConfig.Tab.PLAN,
-                    selected: selected === moreAppConfig.Tab.PLAN ?? false,
-                    id: 'plan',
-                    content: 'Plan'
-                },
-                {
-                    number: moreAppConfig.Tab.FEED_PIXEL,
-                    selected: selected === moreAppConfig.Tab.FEED_PIXEL ?? false,
-                    id: 'feed',
-                    content: 'Facebook Product Feed'
-                },
-                {
-                    number: moreAppConfig.Tab.HELP,
-                    selected: selected === moreAppConfig.Tab.HELP ?? false,
-                    id: 'help',
-                    content: 'Help'
-                },
-                {
-                    number: moreAppConfig.Tab.TIKTOK_PIXEL,
-                    selected: selected === moreAppConfig.Tab.TIKTOK_PIXEL ?? false,
-                    id: 'tiktok-pixel',
-                    content: 'Tiktok Pixels'
-                },
-            ]
+            tabs: SetTabSelected(selected)
         })
         if (selected === 0) {
             this.props.AppCallbackCheckPlanCreatePixelFunction();
@@ -430,7 +208,7 @@ class LayoutPixel extends Component {
                         {this.state.tabs.map((item) => {
                             return (
                                 <li tabindex={item.number} className="Polaris-Tabs__TabContainer" role="presentation">
-                                    <button id={item.id} role="tab" type="button" tabindex="0" className={item.selected ? "Polaris-Tabs__Tab Polaris-Tabs__Tab--selected" : "Polaris-Tabs__Tab"} aria-selected="true" aria-controls="create-pixel-panel"
+                                    <button ref={this.props.ref} id={item.id} role="tab" type="button" tabindex="0" className={item.selected ? "Polaris-Tabs__Tab Polaris-Tabs__Tab--selected" : "Polaris-Tabs__Tab"} aria-selected="true" aria-controls="create-pixel-panel"
                                         onClick={() => {
                                             this.handleTabChange(item.number);
                                             var path = item.id;
@@ -493,6 +271,14 @@ class LayoutPixel extends Component {
                         </Card.Section>
                     </Route>
                     <Route exact path='/create-pixel'>
+                        <Card.Section>
+                            <CreatePixel shop={this.props.shop} setting={this.props.setting} pixelEdit={this.props.pixelEdit}
+                                callbackSelectedTabChange={this.callbackSelectedTabChange}
+                                callbackIsShowPlanFuntion={this.callbackIsShowPlanFuntion}
+                                callbackSavePixelSuccess={this.callbackSavePixelSuccess}></CreatePixel>
+                        </Card.Section>
+                    </Route>
+                    <Route exact path='/update-pixel/:slug'>
                         <Card.Section>
                             <CreatePixel shop={this.props.shop} setting={this.props.setting} pixelEdit={this.props.pixelEdit}
                                 callbackSelectedTabChange={this.callbackSelectedTabChange}
@@ -563,7 +349,7 @@ class LayoutPixel extends Component {
 
         )
 
-        
+
     }
 
 

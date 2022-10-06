@@ -25,7 +25,7 @@ class Step2 extends Component {
     }
 
     handleDoneChange = (e) => {
-        debugger;
+        
         this.setState({ isDone: e });
     }
 
@@ -34,7 +34,7 @@ class Step2 extends Component {
     }
 
     completeStepSetup = () => {
-        debugger;
+        
         this.setState({isLoadingSave : true});
         const that = this;
         if (this.state.isDone) {
@@ -42,7 +42,7 @@ class Step2 extends Component {
                 .then(function (response) {
                     // handle success
                     if (response.data != null) {
-                        debugger;
+                        
                         if (response.data.IsSuccess) {
                             axios.post(config.rootLink + '/FrontEnd/CompleteStepSetup', { ShopID: that.props.shop.ID })
                                 .then(function (response1) {

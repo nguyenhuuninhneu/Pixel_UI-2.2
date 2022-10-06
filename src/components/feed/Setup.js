@@ -12,7 +12,7 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 
 const configResourcePicker = { apiKey: config.apiKey, shopOrigin: config.shop };
 const getArrayCategoryById = (id) => {
-    debugger;
+    
     let result = [];
     while (allCategory.find(p => p.Id == id) != undefined) {
         let cat = allCategory.find(p => p.Id == id);
@@ -58,7 +58,7 @@ const getCategorybyArray = (arr) => {
     return -1;
 }
 const getCategoryOriginalNamebyArray = (arr) => {
-    debugger;
+    
     var id = 0;
     if (arr.Category4 > 0) {
         id = arr.Category4;
@@ -78,7 +78,7 @@ const getCategoryOriginalNamebyArray = (arr) => {
 class Setup extends Component {
     constructor(props) {
         super(props);
-        debugger;
+        
         this.state = {
             openModel: false,
             isOpenProductPicker: false,
@@ -134,7 +134,7 @@ class Setup extends Component {
                     .then(function (response) {
                         // handle success
                         if (response.data != null && !response.data.IsGenerating) {
-                            debugger;
+                            
                             that.props.AppCallbackFeedFuntion({
                                 ...that.props.feed,
                                 IsGenerating: response.data.IsGenerating,
@@ -163,7 +163,7 @@ class Setup extends Component {
     }
 
     saveFeed = (stepSetup, isGenerate) => {
-        debugger;
+        
         if (this.state.feed.Name == '') {
             this.setState({
                 validateName: 'Name is required.'
@@ -209,7 +209,7 @@ class Setup extends Component {
                 .then(function (response) {
                     // handle success
                     if (response.data != null) {
-                        debugger;
+                        
                         if (response.data.IsSuccess) {
                             that.setState({
                                 isLoadingSave: false,
@@ -248,7 +248,7 @@ class Setup extends Component {
             .then(function (response) {
                 // handle success
                 if (response.data != null) {
-                    debugger;
+                    
                     if (response.data.IsSuccess) {
 
                         that.props.AppCallbackFeedFuntion({
@@ -287,7 +287,7 @@ class Setup extends Component {
     }
 
     handleCloseSelectFacebookCategoryMapping = () => {
-        debugger;
+        
         var listtmp = this.state.selectedCollection;
         var facebookCategoryId = getCategorybyArray(this.state.listCategoryMapping);
         listtmp[this.state.currentIndex].facebookCategoryId = facebookCategoryId;
@@ -354,7 +354,7 @@ class Setup extends Component {
 
 
     handleClickCopyUrl = () => {
-        debugger;
+        
         this.setState({ alert: <Toast content={"Copied!"} onDismiss={() => { this.setState({ alert: null }) }} duration={4500}></Toast> });
     }
 
@@ -553,7 +553,7 @@ class Setup extends Component {
     }
 
     handleCollectionMappingChange = (index, e) => {
-        debugger;
+        
         if (this.state.selectedCollection.length == 0) {
             this.setState({
                 selectedCollection: [{ collectionId: e, facebookCategoryId: 0, facebookCategoryTitle: '' }],
@@ -728,7 +728,7 @@ class Setup extends Component {
                                     <div className={"orichi-feed-radio"}>
                                         <Stack horizontal>
                                             <div onClick={() => {
-                                                debugger;
+                                                
                                                 this.setState({
                                                     isOpenSelectFacebookCategory: true
                                                 })
@@ -742,7 +742,7 @@ class Setup extends Component {
                                                 />
                                             </div>
                                             <div onClick={() => {
-                                                debugger;
+                                                
                                                 this.getAllCollection();
                                             }}>
                                                 <RadioButton
@@ -952,7 +952,7 @@ class Setup extends Component {
                                             placeholder="Search..."
                                             value={this.state.listCategorySearch.Category1}
                                             onChange={(e) => {
-                                                debugger;
+                                                
                                                 this.setState({
                                                     listCategorySearch: {
                                                         ...this.state.listCategorySearch,
@@ -1038,7 +1038,7 @@ class Setup extends Component {
                                             placeholder="Search..."
                                             value={this.state.listCategorySearch.Category3}
                                             onChange={(e) => {
-                                                debugger;
+                                                
                                                 this.setState({
                                                     listCategorySearch: {
                                                         ...this.state.listCategorySearch,
@@ -1082,7 +1082,7 @@ class Setup extends Component {
                                             placeholder="Search..."
                                             value={this.state.listCategorySearch.Category4}
                                             onChange={(e) => {
-                                                debugger;
+                                                
                                                 this.setState({
                                                     listCategorySearch: {
                                                         ...this.state.listCategorySearch,
@@ -1141,7 +1141,7 @@ class Setup extends Component {
                                             placeholder="Search..."
                                             value={this.state.listCategoryMappingSearch.Category1}
                                             onChange={(e) => {
-                                                debugger;
+                                                
                                                 this.setState({
                                                     listCategorySearch: {
                                                         ...this.state.listCategoryMappingSearch,
@@ -1227,7 +1227,7 @@ class Setup extends Component {
                                             placeholder="Search..."
                                             value={this.state.listCategoryMappingSearch.Category3}
                                             onChange={(e) => {
-                                                debugger;
+                                                
                                                 this.setState({
                                                     listCategorySearch: {
                                                         ...this.state.listCategoryMappingSearch,
@@ -1271,7 +1271,7 @@ class Setup extends Component {
                                             placeholder="Search..."
                                             value={this.state.listCategoryMappingSearch.Category4}
                                             onChange={(e) => {
-                                                debugger;
+                                                
                                                 this.setState({
                                                     listCategorySearch: {
                                                         ...this.state.listCategoryMappingSearch,

@@ -34,6 +34,7 @@ import {
 
 const App = () => {
     const history = useHistory();
+    const childCompRef = useRef();
     const [Shop, setShop] = useState(0);
     const [Feed, setFeed] = useState(0);
     const [Setting, setSetting] = useState(0);
@@ -153,16 +154,14 @@ const App = () => {
 
     const handleSelectedTabs = (selectedTab) => {
         setselectedTab(selectedTab);
-        debugger;
         if (selectedTab === moreAppConfig.Tab.CREATE_PIXEL) {
-            window.localStorage.setItem('tab', selectedTab);
             var url = moreAppConfig.UrlSystem.NO_STEP;
             if (Shop.StepSetup === 0) {
                 url = moreAppConfig.UrlSystem.STEP_1;
             } 
             history.push('/' + url + '?shop=' + Shop?.Domain + '&admin=1');
         }
-
+        childCompRef.current.handleTabChange(selectedTab);
     }
 
     const handleEmailChange = (e) => {
@@ -177,20 +176,18 @@ const App = () => {
     }
 
     const AppCallbackCheckPlanCreatePixelFunction = () => {
-        debugger;
         let that = this;
         axios.get(config.rootLink + '/Plan/CheckPlan?id=' + Shop.ID)
             .then(function (response) {
-                debugger;
                 if (response.data.planNumber == 0 && response.data.countPixel > 0) {
                     setselectedTab(moreAppConfig.Tab.SETTING);
+                    childCompRef.current.handleSetOnlyTabChange(moreAppConfig.Tab.SETTING);
                 }
                 else {
                     setpixelEdit(null);
                     setselectedTab(moreAppConfig.Tab.DASHBOARD);
-                    window.localStorage.setItem('tab', moreAppConfig.Tab.DASHBOARD);
+                    childCompRef.current.handleSetOnlyTabChange(moreAppConfig.Tab.DASHBOARD);
                     history.push('/' + moreAppConfig.UrlSystem.DASHBOARD + '?shop=' + Shop?.Domain + '&admin=1');
-
                 }
 
             })
@@ -602,7 +599,7 @@ const App = () => {
         else {
             return (
                 <>
-                    <LayoutPixel shop={Shop} setting={Setting} selectedTab={selectedTab} pixelEdit={pixelEdit} hasRating={hasRating} isCompleteSave={isCompleteSave} feed={Feed}
+                    <LayoutPixel onRef={ref => (childCompRef.current = ref)} shop={Shop} setting={Setting} selectedTab={selectedTab} pixelEdit={pixelEdit} hasRating={hasRating} isCompleteSave={isCompleteSave} feed={Feed}
                         AppCallBackIsCompleteSave={setisCompleteSave}
                         AppCallbackAfterSavePixelSuccess={AppCallbackAfterSavePixelSuccess}
                         AppCallbackWriteQuickReview={onWriteQuickReview}

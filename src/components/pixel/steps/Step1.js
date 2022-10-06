@@ -63,10 +63,10 @@ class Step1 extends Component {
             selectedCollectionName: (this.props.shop.pixelStepSetup != undefined && this.props.shop.pixelStepSetup.ListCollectionName != null) ? this.props.shop.pixelStepSetup.ListCollectionName.split('|||') : [],
 
             listTagProduct: (this.props.shop.pixelStepSetup != undefined && this.props.shop.pixelStepSetup.ListProductName != null) ? this.props.shop.pixelStepSetup.ListProductName.split('|||').map((pro, index) => {
-                return <Tag key={'gid://shopify/Product/' + (this.props.shop.pixelStepSetup.LstProduct == null ? '' : (this.props.shop.pixelStepSetup.LstProduct.split(',').length > index ? this.props.shop.pixelStepSetup.LstProduct.split(',')[index] : ''))} onRemove={() => { debugger; this.handleRemoveTagProduct({ id: 'gid://shopify/Product/' + (this.props.shop.pixelStepSetup.LstProduct == null ? '' : (this.props.shop.pixelStepSetup.LstProduct.split(',').length > index ? this.props.shop.pixelStepSetup.LstProduct.split(',')[index] : '')) }) }}>{pro}</Tag>;
+                return <Tag key={'gid://shopify/Product/' + (this.props.shop.pixelStepSetup.LstProduct == null ? '' : (this.props.shop.pixelStepSetup.LstProduct.split(',').length > index ? this.props.shop.pixelStepSetup.LstProduct.split(',')[index] : ''))} onRemove={() => {  this.handleRemoveTagProduct({ id: 'gid://shopify/Product/' + (this.props.shop.pixelStepSetup.LstProduct == null ? '' : (this.props.shop.pixelStepSetup.LstProduct.split(',').length > index ? this.props.shop.pixelStepSetup.LstProduct.split(',')[index] : '')) }) }}>{pro}</Tag>;
             }) : [],
             listTagCollection: (this.props.shop.pixelStepSetup != undefined && this.props.shop.pixelStepSetup.ListCollectionName != null) ? this.props.shop.pixelStepSetup.ListCollectionName.split('|||').map((pro, index) => {
-                return <Tag key={'gid://shopify/Product/' + (this.props.shop.pixelStepSetup.LstCollect == null ? '' : (this.props.shop.pixelStepSetup.LstCollect.split(',').length > index ? this.props.shop.pixelStepSetup.LstCollect.split(',')[index] : ''))} onRemove={() => { debugger; this.handleRemoveTagProduct({ id: 'gid://shopify/Product/' + (this.props.shop.pixelStepSetup.LstCollect == null ? '' : (this.props.shop.pixelStepSetup.LstCollect.split(',').length > index ? this.props.shop.pixelStepSetup.LstCollect.split(',')[index] : '')) }) }}>{pro}</Tag>;
+                return <Tag key={'gid://shopify/Product/' + (this.props.shop.pixelStepSetup.LstCollect == null ? '' : (this.props.shop.pixelStepSetup.LstCollect.split(',').length > index ? this.props.shop.pixelStepSetup.LstCollect.split(',')[index] : ''))} onRemove={() => {  this.handleRemoveTagProduct({ id: 'gid://shopify/Product/' + (this.props.shop.pixelStepSetup.LstCollect == null ? '' : (this.props.shop.pixelStepSetup.LstCollect.split(',').length > index ? this.props.shop.pixelStepSetup.LstCollect.split(',')[index] : '')) }) }}>{pro}</Tag>;
             }) : [],
             limitViewMore: 10,
             selectedMedia: 0,
@@ -111,7 +111,7 @@ class Step1 extends Component {
 
 
     savePixel = () => {
-        debugger;
+        
         const that = this;
         let isvalid = true;
         let isCAPIpost = this.state.isCAPI;
@@ -155,7 +155,7 @@ class Step1 extends Component {
     }
 
     handleIDChange = (e) => {
-        debugger;
+        
         const re = /^[0-9\b]+$/;
 
         // if value is not blank, then test the regex
@@ -167,7 +167,7 @@ class Step1 extends Component {
     }
 
     handleTokenAccessChange = (e) => {
-        debugger;
+        
         this.setState({ tokenAccess: e, validTokenAccess: e === '' ? TokenAccessErrorMessage : '' });
     }
 
@@ -180,7 +180,7 @@ class Step1 extends Component {
     }
 
     handleTitleChange = (e) => {
-        debugger;
+        
         this.setState({ title: e, validTitle: e === '' ? TitleErrorMessage : '' });
     }
     handleTargetChange = (e) => {
@@ -193,7 +193,7 @@ class Step1 extends Component {
         this.setState({ isOpenProductPicker: false });
     }
     handleRemoveTagProduct = (pro) => {
-        debugger;
+        
         const index = this.state.selectedProductID.map(p => p.id).indexOf(pro.id);
         if (index > -1) {
             this.setState({
@@ -228,7 +228,7 @@ class Step1 extends Component {
         this.setState({ isOpenCollectionPicker: false });
     }
     handleRemoveTagCollection = (col) => {
-        debugger;
+        
         const index = this.state.selectedCollectionID.map(p => p.id).indexOf(col.id);
         if (index > -1) {
             this.setState({
@@ -239,7 +239,7 @@ class Step1 extends Component {
         }
     }
     handleSelectCollection = (selectPayload) => {
-        debugger;
+        
         this.setState(
             {
                 selectedCollectionID: selectPayload.selection.map((col) => {
@@ -261,7 +261,7 @@ class Step1 extends Component {
     }
 
     render() {
-        debugger;
+        
         return (
             <>
                 <Layout>
@@ -378,7 +378,7 @@ class Step1 extends Component {
 
                                             loading={this.state.isLoadingAppEmbed}
                                             onClick={() => {
-                                                debugger;
+                                                
                                                 let that = this;
                                                 this.setState({ isLoadingAppEmbed: true });
                                                 window.open('https://' + config.shop + '/admin/themes/current/editor?context=apps&activateAppId=67bf7d46-e794-4117-adb7-273fd162e4d1/orichi-pixel', "_blank");

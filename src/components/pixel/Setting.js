@@ -10,7 +10,7 @@ import {
 
 class Setting extends Component {
     constructor(props) {
-        debugger;
+        
         super(props);
         let tz1 = timezones.find(p => p.value == this.props.setting.CustomJsCart);
         let tz = tz1 == undefined ? timezones.find(p => p.time == this.props.setting.TimeZone) : tz1;
@@ -78,7 +78,7 @@ class Setting extends Component {
             TimeDelay: this.state.timeDelay
         })
             .then(function (response) {
-                debugger;
+                
                 // handle success
                 if (response.data.IsSuccess) {
                     that.setState({ alert: <Toast content={response.data.Messenger} onDismiss={that.toggleActive} duration={4500} /> })
@@ -110,7 +110,7 @@ class Setting extends Component {
 
                                     loading={this.state.isLoadingAppEmbed}
                                     onClick={() => {
-                                        debugger;
+                                        
                                         let that = this;
                                         this.setState({ isLoadingAppEmbed: true });
                                         window.open('https://' + config.shop + '/admin/themes/current/editor?context=apps&activateAppId=67bf7d46-e794-4117-adb7-273fd162e4d1/orichi-pixel', "_blank");

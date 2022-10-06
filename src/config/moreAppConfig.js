@@ -38,6 +38,7 @@ const moreAppConfig = {
     },
     UrlSystem: {
         DASHBOARD: 'dashboard',
+        UPDATE_PIXEL: 'update-pixel',
         NO_STEP: 'create-pixel',
         STEP_1: 'create-pixel/step-1',
         STEP_2: 'create-pixel/step-2',

@@ -152,7 +152,7 @@ class Help extends Component {
                                 term: <Icon
                                     source={ChatMajor}
                                     color="base" />,
-                                description: <Button primary onClick={() => { debugger; this.loadChatPlugin() }}>Chat with us</Button>
+                                description: <Button primary onClick={() => {  this.loadChatPlugin() }}>Chat with us</Button>
                             }, {
                                 term: <Icon
                                     source={EmailMajor}

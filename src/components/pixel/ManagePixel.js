@@ -15,6 +15,7 @@ import { TransferWithinAStationSharp } from '@material-ui/icons';
 import {
     withRouter
 } from "react-router-dom";
+import moreAppConfig from '../../config/moreAppConfig';
 
 
 class ManagePixel extends Component {
@@ -44,7 +45,7 @@ class ManagePixel extends Component {
         var date = Date.now();
         axios.get(config.rootLink + '/FileJson/' + this.props.shop.ID + '/Pixel' + this.props.shop.ID + '.json?v=' + date)
             .then(function (response) {
-                debugger;
+                
                 if (response.data != null) {
                     that.setState({ data: response.data });
                     that.props.AppCallbackPixelCountFunction(response.data.length);
@@ -93,7 +94,7 @@ class ManagePixel extends Component {
                 
                 <div style={{ textAlign: 'right', marginBottom: '20px' }}>
                     <Button primary onClick={() => {
-                        debugger;
+                        
                          
                          this.props.AppCallbackCheckPlanCreatePixelFunction() 
                          }}>Add Facebook Pixel</Button>
@@ -142,7 +143,7 @@ class ManagePixel extends Component {
                             (p.IsEnableConversationAPI ? (<Badge status="success">CAPI</Badge>) : (<Badge>Browser</Badge>)),
                             (p.Status ? (<Badge status="success">Active</Badge>) : (<Badge status="warning" progress="incomplete">Disable</Badge>)),
                             <>
-                                <IconButton onClick={() => { this.props.callbackSelectedTabCreateChange(0, p) }}>
+                                <IconButton onClick={() => { this.props.callbackSelectedTabCreateChange(moreAppConfig.Tab.CREATE_PIXEL, p) }}>
                                     <Icon
                                         source={EditMajor}
                                         color="base" />

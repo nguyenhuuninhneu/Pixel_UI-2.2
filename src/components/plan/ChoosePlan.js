@@ -8,7 +8,7 @@ import browserblocked2 from '../../assets/images/browser-blocked-2.png';
 
 class ChoosePlan extends Component {
     constructor(props) {
-        debugger;
+        
         super(props);
         this.state = {
             PlanNumber: 0,

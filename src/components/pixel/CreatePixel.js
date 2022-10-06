@@ -115,7 +115,7 @@ class CreatePixel extends Component {
     }
 
     handleTokenAccessChange = (e) => {
-        debugger;
+        
         this.setState({ tokenAccess: e, validTokenAccess: e === '' ? TokenAccessErrorMessage : '' });
     }
 
@@ -124,7 +124,7 @@ class CreatePixel extends Component {
     }
 
     savePixel = () => {
-        debugger;
+        
         this.setState({ isLoadingButton: true });
         const that = this;
         let isvalid = true;
@@ -168,7 +168,7 @@ class CreatePixel extends Component {
                 .then(function (response) {
                     // handle success
                     if (response.data != null) {
-                        debugger;
+                        
                         if (response.data.IsSuccess) {
                             if (that.state.pixelID == 0){
                                 that.props.callbackSavePixelSuccess();
@@ -203,7 +203,7 @@ class CreatePixel extends Component {
     }
 
     handleIDChange = (e) => {
-        debugger;
+        
         const re = /^[0-9\b]+$/;
 
         // if value is not blank, then test the regex
@@ -219,7 +219,7 @@ class CreatePixel extends Component {
     }
 
     handleTitleChange = (e) => {
-        debugger;
+        
         this.setState({ title: e, validTitle: e === '' ? TitleErrorMessage : '' });
     }
     handleTargetChange = (e) => {
@@ -232,7 +232,7 @@ class CreatePixel extends Component {
         this.setState({ isOpenProductPicker: false });
     }
     handleRemoveTagProduct = (pro) => {
-        debugger;
+        
         const index = this.state.selectedProductID.map(p => p.id).indexOf(pro.id);
         if (index > -1) {
             this.setState({
@@ -267,7 +267,7 @@ class CreatePixel extends Component {
         this.setState({ isOpenCollectionPicker: false });
     }
     handleRemoveTagCollection = (col) => {
-        debugger;
+        
         const index = this.state.selectedCollectionID.map(p => p.id).indexOf(col.id);
         if (index > -1) {
             this.setState({
@@ -278,7 +278,7 @@ class CreatePixel extends Component {
         }
     }
     handleSelectCollection = (selectPayload) => {
-        debugger;
+        
         this.setState(
             {
                 selectedCollectionID: selectPayload.selection.map((col) => {
